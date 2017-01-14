@@ -1,8 +1,7 @@
 //
 var express = require('express');
 var app = express();
-var parseString = require('xml2js').parseString;
-var fs = require('fs');
+var result = require('./parseFile.js');
 //var MongoClient = require('mongodb').MongoClient;
 var mongoose = require('mongoose');
 var assert = require('assert');
@@ -28,39 +27,29 @@ var Book = mongoose.model('Book', bookSchema);
 // set the view engine to ejs
 app.set('view engine', 'ejs');
 
-
 // index page 
 app.get('/', function(req, res, next) {
 	
-	fs.readFile(__dirname + '/items.xml', function(error, xml) {
+	result.fn().then(function(re){
 
-		if(!error){
+		if(re){
 
-			parseString(xml, function (err, result) {
+    		res.render('pages/index', {data: re});
 
-				if(!err){
+    		var book = new Book({author: re[0].author[0]});
 
-    				res.render('pages/index', {data: result.catalog.book});
+    		book.save(function(err, author){});
 
-    				var book = new Book({ author:  result.catalog.book[0].author[0]});
-
-    				book.save(function(err, author){})
     				/*Book.collection.insertMany(result.catalog.book, function(err,r) {
       					assert.equal(null, err);
       					assert.equal(12, r.insertedCount);
 
       					db.close();
 					})*/
-				}else{
-					console.dir(err);
-					res.render('pages/index', {data: [{author: ['error on page']}]});
-				}
-			});
 		}else{
-			console.dir(error);
 			res.render('pages/index', {data: [{author: ['error on page']}]});
 		}
-  	});
+	});
 	
 });
 
