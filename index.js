@@ -32,22 +32,34 @@ app.set('view engine', 'ejs');
 // index page 
 app.get('/', function(req, res, next) {
 	
-	fs.readFile(__dirname + '/items.xml', function(err, xml) {
-		parseString(xml, function (err, result) {
+	fs.readFile(__dirname + '/items.xml', function(error, xml) {
 
-    		res.render('pages/index', {data: result.catalog.book});
+		if(!error){
 
-    		var book = new Book({ author:  result.catalog.book[0].author[0]});
+			parseString(xml, function (err, result) {
 
-    		book.save(function(err, author){})
-    		/*Book.collection.insertMany(result.catalog.book, function(err,r) {
-      			assert.equal(null, err);
-      			assert.equal(12, r.insertedCount);
+				if(!err){
 
-      			db.close();
-			})*/
-			
-		});
+    				res.render('pages/index', {data: result.catalog.book});
+
+    				var book = new Book({ author:  result.catalog.book[0].author[0]});
+
+    				book.save(function(err, author){})
+    				/*Book.collection.insertMany(result.catalog.book, function(err,r) {
+      					assert.equal(null, err);
+      					assert.equal(12, r.insertedCount);
+
+      					db.close();
+					})*/
+				}else{
+					console.dir(err);
+					res.render('pages/index', {data: [{author: ['error on page']}]});
+				}
+			});
+		}else{
+			console.dir(error);
+			res.render('pages/index', {data: [{author: ['error on page']}]});
+		}
   	});
 	
 });
