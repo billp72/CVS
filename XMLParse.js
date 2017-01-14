@@ -6,7 +6,7 @@ var Promise = require('promise');
 exports.XMLUrl = function(url){ 
 
 	return new Promise(function (resolve, reject) {
-
+		//TODO: format url - remove slashes
 		fs.readFile(__dirname + url, function(error, xml) {
 
 			if(!error){
