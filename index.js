@@ -1,7 +1,7 @@
 //
 var express = require('express');
 var app = express();
-var result = require('./parseFile.js');
+var result = require('./XMLParse.js');
 //var MongoClient = require('mongodb').MongoClient;
 var mongoose = require('mongoose');
 var assert = require('assert');
@@ -30,7 +30,7 @@ app.set('view engine', 'ejs');
 // index page 
 app.get('/', function(req, res, next) {
 	
-	result.fn().then(function(re){
+	result.XMLUrl('/items.xml').then(function(re){
 
 		if(re){
 
