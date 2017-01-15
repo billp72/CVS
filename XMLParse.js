@@ -14,7 +14,7 @@ exports.XMLUrl = function(url){
 				parseString(xml, function (err, result) {
 
 					if(!err){
-					
+						//TODO: return just results to make more universal
 						resolve(result.catalog.book);
 					
 					}else{
