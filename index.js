@@ -1,7 +1,12 @@
-//
+/*
+example usage. 
+
+Below shows how one might parse XML, save it to a noSQL DB
+and render the results.
+*/
 var express = require('express');
 var app = express();
-var result = require('./XMLParse.js');
+var XMLParse = require('./XMLParse.js');
 //var MongoClient = require('mongodb').MongoClient;
 var mongoose = require('mongoose');
 var assert = require('assert');
@@ -29,15 +34,14 @@ app.set('view engine', 'ejs');
 
 // index page 
 app.get('/', function(req, res, next) {
-	
-	result.XMLUrl('/items.xml').then(function(re){
+	//here's the xml parser. This takes in an xml document and returns JSON
+	XMLParse.get('/items.xml' /*URL to xml*/).then(function(result){
 
-		if(re){
+		if(result){//check for results
 
-    		res.render('pages/index', {data: re});
+    		res.render('pages/index', {data: result});
 
-    		var book = new Book({author: re[0].author[0]});
-
+    		var book = new Book({author: result[0].author[0]});
     		book.save(function(err, author){});
 
     				/*Book.collection.insertMany(result.catalog.book, function(err,r) {
@@ -46,7 +50,7 @@ app.get('/', function(req, res, next) {
 
       					db.close();
 					})*/
-		}else{
+		}else{//handle error
 			res.render('pages/index', {data: [{author: ['error on page']}]});
 		}
 	});

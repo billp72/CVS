@@ -3,7 +3,7 @@ var fs = require('fs');
 var assert = require('assert');
 var Promise = require('promise');
 
-exports.XMLUrl = function(url){ 
+exports.get = function(url){ 
 
 	return new Promise(function (resolve, reject) {
 		//TODO: format url - remove slashes
