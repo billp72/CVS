@@ -40,8 +40,8 @@ app.get('/', function(req, res, next) {
 		if(result){//check for results
 
     		res.render('pages/index', {data: result});
-
-    		var book = new Book({author: result[0].author[0]});
+    
+    		var book = new Book({author: result[0]});
     		book.save(function(err, author){});
 
     				/*Book.collection.insertMany(result.catalog.book, function(err,r) {

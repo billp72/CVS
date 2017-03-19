@@ -4,6 +4,20 @@
 <html lang="en">
 <head>
     <% include ../partials/head %>
+    <style>
+        .titles{
+            margin-bottom: 20px;
+            padding-bottom:10px;
+            border-bottom: 2px solid blue;
+        }
+        .author{
+            font-weight:600;
+        }
+        ul{
+            list-style-type: none;
+            padding-left: 0;
+        }
+    </style>
 </head>
 <body class="container">
     
@@ -13,17 +27,43 @@
 
     <main>
         <div class="jumbotron">
-            <h2>List of items</h2>
+            <h2>List of Titles</h2>
             <% var dt = data.length; %>
             <ul>
                 <% for(var i=0; i<dt; i++) { %>
-                    <li>
+                <ul id="title_<%=+i%>" class="titles">
+                    <li class="author">
                         <a href='books/<%= data[i].author[0] %>'>
                             <%= data[i].author[0] %>
                         </a>
                     </li>
+                    <li>
+                        <a href='books/<%= data[i].title[0] %>'>
+                            <%= data[i].title[0] %>
+                        </a>
+                    </li>
+                    <li>
+                        <a href='books/<%= data[i].genre[0] %>'>
+                            <%= data[i].genre[0] %>
+                        </a>
+                    </li>
+                    <li>
+                        <a href='books/<%= data[i].price[0] %>'>
+                            <%= data[i].price[0] %>
+                        </a>
+                    </li>
+                    <li>
+                        <a href='books/<%= data[i].publish_date[0] %>'>
+                            <%= data[i].publish_date[0] %>
+                        </a>
+                    </li>
+                    <li>
+                        <a href='books/<%= data[i].description[0] %>'>
+                            <%= data[i].description[0] %>
+                        </a>
+                    </li>
+                </ul>
                 <% } %>
-            </ul>
         </div>
     </main>
 
